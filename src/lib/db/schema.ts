@@ -4,7 +4,7 @@
 import {
   pgTable,
   varchar,
-  int,
+  integer,
   timestamp,
   boolean,
   text,
@@ -28,7 +28,7 @@ export const users = pgTable('users', {
   major: varchar('major'), // 학과/전공
   jobgroup: varchar('jobgroup'), // 직업군
   birth: varchar('birth'), // 생년월일
-  state_reg: int('state_reg').default(1), // 상태
+  state_reg: integer('state_reg').default(1), // 상태
   reg_date: timestamp('reg_date').defaultNow(),
   upd_date: timestamp('upd_date')
 });
@@ -43,7 +43,7 @@ export const licenseKinds = pgTable('license_kinds', {
   pass_date: timestamp('pass_date'),
   tq_sdate: timestamp('tq_sdate'),
   tq_edate: timestamp('tq_edate'),
-  state_reg: int('state_reg').default(1),
+  state_reg: integer('state_reg').default(1),
   reg_date: timestamp('reg_date').defaultNow(),
   upd_date: timestamp('upd_date')
 });
@@ -81,7 +81,7 @@ export const queTypeManages = pgTable('que_type_manages', {
   que_content: text('que_content'),
   que_answer: text('que_answer'),
   que_explanation: text('que_explanation'),
-  que_score: int('que_score').default(1),
+  que_score: integer('que_score').default(1),
   use_at: varchar('use_at').default('Y'),
   reg_date: timestamp('reg_date').defaultNow(),
   upd_date: timestamp('upd_date')
@@ -96,9 +96,9 @@ export const examSchedules = pgTable('exam_schedules', {
   exam_start_time: varchar('exam_start_time'),
   exam_end_time: varchar('exam_end_time'),
   exam_location: varchar('exam_location'),
-  max_participants: int('max_participants'),
-  current_participants: int('current_participants').default(0),
-  state_reg: int('state_reg').default(1),
+  max_participants: integer('max_participants'),
+  current_participants: integer('current_participants').default(0),
+  state_reg: integer('state_reg').default(1),
   reg_date: timestamp('reg_date').defaultNow(),
   upd_date: timestamp('upd_date')
 });
@@ -112,7 +112,7 @@ export const admins = pgTable('admins', {
   admin_role: varchar('admin_role').notNull(), // 90001: 관리자, 90002: 접수담당자, 90003: 자격증담당자
   last_login: timestamp('last_login'),
   login_ip: varchar('login_ip'),
-  state_reg: int('state_reg').default(1),
+  state_reg: integer('state_reg').default(1),
   reg_date: timestamp('reg_date').defaultNow(),
   upd_date: timestamp('upd_date')
 });
@@ -122,7 +122,7 @@ export const attachedFiles = pgTable('attached_files', {
   file_id: varchar('file_id').primaryKey(),
   file_name: varchar('file_name').notNull(),
   file_path: varchar('file_path').notNull(),
-  file_size: int('file_size'),
+  file_size: integer('file_size'),
   content_type: varchar('content_type'),
   reg_date: timestamp('reg_date').defaultNow()
 });
