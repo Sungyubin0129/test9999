@@ -11,6 +11,7 @@ interface JavaAPIResponse<T = any> {
 interface CBTLoginRequest {
   user_id: string;
   tq_num: string;
+  [key: string]: string;
 }
 
 interface CBTLoginResponse {
