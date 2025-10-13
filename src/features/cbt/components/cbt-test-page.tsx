@@ -140,170 +140,172 @@ export function CBTTestPage() {
   const progress = ((currentQuestion + 1) / examData.questions.length) * 100;
 
   return (
-    <div className='min-h-screen bg-gray-50 p-4'>
-      {/* Java 프로젝트의 시험 헤더 */}
-      <div className='mb-6'>
-        <Card>
-          <CardHeader className='pb-3'>
-            <div className='flex items-center justify-between'>
-              <CardTitle className='text-xl'>온라인 시험</CardTitle>
-              <div className='flex items-center space-x-4'>
-                <div className='flex items-center space-x-2'>
-                  <Clock className='h-5 w-5 text-red-500' />
-                  <span className='font-mono text-lg'>
-                    {formatTime(timeLeft)}
-                  </span>
-                </div>
-                <Badge variant='outline'>
-                  {currentQuestion + 1} / {examData.questions.length}
-                </Badge>
+    <div className='flex h-screen flex-col bg-gray-50'>
+      {/* Java 프로젝트의 시험 헤더 - 고정 */}
+      <div className='flex-shrink-0 border-b bg-white shadow-sm'>
+        <div className='p-4'>
+          <div className='flex items-center justify-between'>
+            <h1 className='text-xl font-bold'>온라인 시험</h1>
+            <div className='flex items-center space-x-4'>
+              <div className='flex items-center space-x-2'>
+                <Clock className='h-5 w-5 text-red-500' />
+                <span className='font-mono text-lg'>
+                  {formatTime(timeLeft)}
+                </span>
               </div>
+              <Badge variant='outline'>
+                {currentQuestion + 1} / {examData.questions.length}
+              </Badge>
             </div>
-            <Progress value={progress} className='mt-2' />
-          </CardHeader>
-        </Card>
-      </div>
-
-      {/* Java 프로젝트의 문제 영역 */}
-      <div className='grid grid-cols-1 gap-6 lg:grid-cols-4'>
-        {/* 문제 목록 (Java 프로젝트의 문제 네비게이션) */}
-        <div className='lg:col-span-1'>
-          <Card>
-            <CardHeader>
-              <CardTitle className='text-sm'>문제 목록</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className='grid grid-cols-5 gap-2'>
-                {examData.questions.map((question, index) => (
-                  <Button
-                    key={question.que_id}
-                    variant={index === currentQuestion ? 'default' : 'outline'}
-                    size='sm'
-                    className='h-8 w-8 p-0'
-                    onClick={() => setCurrentQuestion(index)}
-                  >
-                    {answers[question.que_id] ? (
-                      <CheckCircle className='h-4 w-4' />
-                    ) : (
-                      <Circle className='h-4 w-4' />
-                    )}
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* 문제 내용 (Java 프로젝트의 문제 표시 영역) */}
-        <div className='lg:col-span-3'>
-          <Card>
-            <CardHeader>
-              <div className='flex items-center justify-between'>
-                <CardTitle className='text-lg'>
-                  문제 {currentQuestion + 1}
-                </CardTitle>
-                <Badge variant='secondary'>{currentQ.que_score}점</Badge>
-              </div>
-            </CardHeader>
-            <CardContent className='space-y-6'>
-              {/* 문제 내용 */}
-              <div className='prose max-w-none'>
-                <h3 className='mb-4 text-lg font-semibold'>
-                  {currentQ.que_title}
-                </h3>
-                <p className='text-base leading-relaxed'>
-                  {currentQ.que_content}
-                </p>
-              </div>
-
-              {/* 선택지 (Java 프로젝트의 객관식 답안) */}
-              <div className='space-y-3'>
-                {currentQ.options.map((option, index) => (
-                  <label
-                    key={index}
-                    className={`flex cursor-pointer items-center space-x-3 rounded-lg border p-4 hover:bg-gray-50 ${
-                      answers[currentQ.que_id] === option
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200'
-                    }`}
-                  >
-                    <input
-                      type='radio'
-                      name={`question_${currentQ.que_id}`}
-                      value={option}
-                      checked={answers[currentQ.que_id] === option}
-                      onChange={(e) =>
-                        handleAnswerSelect(currentQ.que_id, e.target.value)
-                      }
-                      className='h-4 w-4 text-blue-600'
-                    />
-                    <span className='flex-1'>{option}</span>
-                  </label>
-                ))}
-              </div>
-
-              {/* Java 프로젝트의 시험 컨트롤 버튼 */}
-              <div className='flex items-center justify-between border-t pt-6'>
-                <div className='flex space-x-2'>
-                  <Button
-                    variant='outline'
-                    onClick={goPrev}
-                    disabled={currentQuestion === 0}
-                  >
-                    <ArrowLeft className='mr-2 h-4 w-4' />
-                    이전
-                  </Button>
-                  <Button
-                    variant='outline'
-                    onClick={goNext}
-                    disabled={currentQuestion === examData.questions.length - 1}
-                  >
-                    다음
-                    <ArrowRight className='ml-2 h-4 w-4' />
-                  </Button>
-                </div>
-
-                <div className='flex space-x-2'>
-                  <Button
-                    variant='outline'
-                    onClick={handleSave}
-                    className='text-blue-600'
-                  >
-                    <Save className='mr-2 h-4 w-4' />
-                    임시저장
-                  </Button>
-                  <Button
-                    onClick={handleSubmit}
-                    className='bg-red-600 hover:bg-red-700'
-                  >
-                    <Send className='mr-2 h-4 w-4' />
-                    최종제출
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          </div>
+          <Progress value={progress} className='mt-3' />
         </div>
       </div>
 
-      {/* Java 프로젝트의 시험 주의사항 */}
-      <div className='mt-6'>
-        <Card className='border-yellow-200 bg-yellow-50'>
-          <CardContent className='pt-6'>
-            <div className='flex items-start space-x-3'>
-              <AlertTriangle className='mt-0.5 h-5 w-5 text-yellow-600' />
-              <div className='text-sm text-yellow-800'>
-                <p className='mb-2 font-semibold'>시험 주의사항</p>
-                <ul className='space-y-1 text-sm'>
-                  <li>• 시험 시간 내에 모든 문제를 풀어주세요.</li>
-                  <li>• 임시저장을 통해 답안을 저장할 수 있습니다.</li>
-                  <li>• 최종제출 후에는 답안을 수정할 수 없습니다.</li>
-                  <li>• 시험 중 브라우저를 닫거나 새로고침하지 마세요.</li>
-                </ul>
-              </div>
+      {/* 메인 콘텐츠 영역 - 스크롤 가능 */}
+      <div className='flex flex-1 overflow-hidden'>
+        {/* 문제 목록 (Java 프로젝트의 문제 네비게이션) - 고정 너비 */}
+        <div className='w-64 flex-shrink-0 border-r bg-white p-4'>
+          <div className='mb-4'>
+            <h2 className='text-sm font-semibold'>문제 목록</h2>
+          </div>
+          <div className='grid grid-cols-5 gap-2'>
+            {examData.questions.map((question, index) => (
+              <Button
+                key={question.que_id}
+                variant={index === currentQuestion ? 'default' : 'outline'}
+                size='sm'
+                className='h-8 w-8 p-0'
+                onClick={() => setCurrentQuestion(index)}
+              >
+                {answers[question.que_id] ? (
+                  <CheckCircle className='h-4 w-4' />
+                ) : (
+                  <Circle className='h-4 w-4' />
+                )}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* 문제 내용 영역 - 스크롤 가능 */}
+        <div className='flex-1 overflow-y-auto p-6'>
+          <div className='mx-auto max-w-4xl'>
+            <Card>
+              <CardHeader>
+                <div className='flex items-center justify-between'>
+                  <CardTitle className='text-lg'>
+                    문제 {currentQuestion + 1}
+                  </CardTitle>
+                  <Badge variant='secondary'>{currentQ.que_score}점</Badge>
+                </div>
+              </CardHeader>
+              <CardContent className='space-y-6'>
+                {/* 문제 내용 */}
+                <div className='prose max-w-none'>
+                  <h3 className='mb-4 text-lg font-semibold'>
+                    {currentQ.que_title}
+                  </h3>
+                  <p className='text-base leading-relaxed'>
+                    {currentQ.que_content}
+                  </p>
+                </div>
+
+                {/* 선택지 (Java 프로젝트의 객관식 답안) */}
+                <div className='space-y-3'>
+                  {currentQ.options.map((option, index) => (
+                    <label
+                      key={index}
+                      className={`flex cursor-pointer items-center space-x-3 rounded-lg border p-4 hover:bg-gray-50 ${
+                        answers[currentQ.que_id] === option
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      <input
+                        type='radio'
+                        name={`question_${currentQ.que_id}`}
+                        value={option}
+                        checked={answers[currentQ.que_id] === option}
+                        onChange={(e) =>
+                          handleAnswerSelect(currentQ.que_id, e.target.value)
+                        }
+                        className='h-4 w-4 text-blue-600'
+                      />
+                      <span className='flex-1'>{option}</span>
+                    </label>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Java 프로젝트의 시험 주의사항 */}
+            <div className='mt-6'>
+              <Card className='border-yellow-200 bg-yellow-50'>
+                <CardContent className='pt-6'>
+                  <div className='flex items-start space-x-3'>
+                    <AlertTriangle className='mt-0.5 h-5 w-5 text-yellow-600' />
+                    <div className='text-sm text-yellow-800'>
+                      <p className='mb-2 font-semibold'>시험 주의사항</p>
+                      <ul className='space-y-1 text-sm'>
+                        <li>• 시험 시간 내에 모든 문제를 풀어주세요.</li>
+                        <li>• 임시저장을 통해 답안을 저장할 수 있습니다.</li>
+                        <li>• 최종제출 후에는 답안을 수정할 수 없습니다.</li>
+                        <li>
+                          • 시험 중 브라우저를 닫거나 새로고침하지 마세요.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Java 프로젝트의 시험 컨트롤 버튼 - 하단 고정 */}
+      <div className='flex-shrink-0 border-t bg-white p-4 shadow-lg'>
+        <div className='mx-auto max-w-4xl'>
+          <div className='flex items-center justify-between'>
+            <div className='flex space-x-2'>
+              <Button
+                variant='outline'
+                onClick={goPrev}
+                disabled={currentQuestion === 0}
+              >
+                <ArrowLeft className='mr-2 h-4 w-4' />
+                이전
+              </Button>
+              <Button
+                variant='outline'
+                onClick={goNext}
+                disabled={currentQuestion === examData.questions.length - 1}
+              >
+                다음
+                <ArrowRight className='ml-2 h-4 w-4' />
+              </Button>
+            </div>
+
+            <div className='flex space-x-2'>
+              <Button
+                variant='outline'
+                onClick={handleSave}
+                className='text-blue-600'
+              >
+                <Save className='mr-2 h-4 w-4' />
+                임시저장
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                className='bg-red-600 hover:bg-red-700'
+              >
+                <Send className='mr-2 h-4 w-4' />
+                최종제출
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
