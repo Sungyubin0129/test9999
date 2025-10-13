@@ -22,6 +22,59 @@ export const navItems: NavItem[] = [
     items: [] // Empty array as there are no child items for Dashboard
   },
   {
+    title: '자격증 관리',
+    url: '/dashboard/qualification',
+    icon: 'award',
+    shortcut: ['q', 'q'],
+    isActive: false,
+    items: [] // No child items
+  },
+  {
+    title: 'CBT 시험',
+    url: '/dashboard/cbt',
+    icon: 'fileText',
+    shortcut: ['c', 'c'],
+    isActive: false,
+    items: [
+      {
+        title: '시험 응시',
+        url: '/dashboard/cbt',
+        icon: 'fileText',
+        shortcut: ['c', 't']
+      },
+      {
+        title: '시험 결과',
+        url: '/dashboard/cbt/results',
+        icon: 'award',
+        shortcut: ['c', 'r']
+      }
+    ]
+  },
+  {
+    title: '시험 접수',
+    url: '/dashboard/exam',
+    icon: 'calendar',
+    shortcut: ['e', 'e'],
+    isActive: false,
+    items: [] // No child items
+  },
+  {
+    title: '결제',
+    url: '/dashboard/payment',
+    icon: 'creditCard',
+    shortcut: ['p', 'p'],
+    isActive: false,
+    items: [] // No child items
+  },
+  {
+    title: '관리자',
+    url: '/dashboard/admin',
+    icon: 'settings',
+    shortcut: ['a', 'a'],
+    isActive: false,
+    items: [] // No child items
+  },
+  {
     title: 'Product',
     url: '/dashboard/product',
     icon: 'product',

@@ -12,7 +12,31 @@ const baseConfig: NextConfig = {
       }
     ]
   },
-  transpilePackages: ['geist']
+  transpilePackages: ['geist'],
+
+  // Java 백엔드 API 프록시 설정
+  async rewrites() {
+    return [
+      {
+        source: '/api/java/:path*',
+        destination: 'http://localhost:8080/:path*' // Java Spring Boot 서버
+      },
+      {
+        source: '/api/cbt/:path*',
+        destination: 'http://localhost:8080/cbt/:path*'
+      },
+      {
+        source: '/api/admin/:path*',
+        destination: 'http://localhost:8080/admin/:path*'
+      }
+    ];
+  },
+
+  // 환경 변수 설정
+  env: {
+    JAVA_API_BASE_URL: process.env.JAVA_API_BASE_URL || 'http://localhost:8080',
+    DATABASE_URL: process.env.DATABASE_URL
+  }
 };
 
 let configWithPlugins = baseConfig;
@@ -20,35 +44,15 @@ let configWithPlugins = baseConfig;
 // Conditionally enable Sentry configuration
 if (!process.env.NEXT_PUBLIC_SENTRY_DISABLED) {
   configWithPlugins = withSentryConfig(configWithPlugins, {
-    // For all available options, see:
-    // https://www.npmjs.com/package/@sentry/webpack-plugin#options
-    // FIXME: Add your Sentry organization and project names
     org: process.env.NEXT_PUBLIC_SENTRY_ORG,
     project: process.env.NEXT_PUBLIC_SENTRY_PROJECT,
-    // Only print logs for uploading source maps in CI
     silent: !process.env.CI,
-
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
     widenClientFileUpload: true,
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
     reactComponentAnnotation: {
       enabled: true
     },
-
-    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-    // This can increase your server load as well as your hosting bill.
-    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-    // side errors will fail.
     tunnelRoute: '/monitoring',
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
     disableLogger: true,
-
-    // Disable Sentry telemetry
     telemetry: false
   });
 }

@@ -30,7 +30,10 @@ import {
   IconUserX,
   IconX,
   IconLayoutKanban,
-  IconBrandGithub
+  IconBrandGithub,
+  IconAward,
+  IconFileText as IconFileTextNew,
+  IconCalendar
 } from '@tabler/icons-react';
 
 export type Icon = React.ComponentType<IconProps>;
@@ -66,5 +69,10 @@ export const Icons = {
   laptop: IconDeviceLaptop,
   github: IconBrandGithub,
   twitter: IconBrandTwitter,
-  check: IconCheck
+  check: IconCheck,
+  // 새로 추가된 아이콘들
+  award: IconAward,
+  fileText: IconFileTextNew,
+  calendar: IconCalendar,
+  creditCard: IconCreditCard
 };
