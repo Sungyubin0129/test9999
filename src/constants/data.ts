@@ -70,7 +70,7 @@ export const navItems: NavItem[] = [
       {
         title: '접수하기',
         url: '/dashboard/exam-registration/apply',
-        icon: 'plus',
+        icon: 'edit',
         shortcut: ['r', 'a']
       },
       {

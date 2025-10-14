@@ -82,6 +82,7 @@ export const Icons = {
   shield: IconSettings, // 응시규정
   edit: IconUserEdit, // 시험접수
   search: IconHelpCircle, // 접수확인
+  x: IconX, // 취소
   ticket: IconFileText, // 수험표발급
   checkCircle: IconCheck, // 합격확인
   certificate: IconAward, // 자격증신청
