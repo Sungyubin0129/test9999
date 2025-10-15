@@ -61,35 +61,29 @@ export const navItems: NavItem[] = [
     ]
   },
   {
-    title: '시험접수',
-    url: '/dashboard/exam-registration',
+    title: '고사장배정',
+    url: '/dashboard/exam-center',
     icon: 'edit',
     shortcut: ['r', 'r'],
     isActive: false,
     items: [
       {
-        title: '접수하기',
-        url: '/dashboard/exam-registration/apply',
+        title: '고사장관리',
+        url: '/dashboard/exam-center/manage',
         icon: 'edit',
         shortcut: ['r', 'a']
       },
       {
-        title: '접수확인',
-        url: '/dashboard/exam-registration/check',
+        title: '고사장배정',
+        url: '/dashboard/exam-center/assign',
         icon: 'search',
         shortcut: ['r', 'c']
       },
       {
-        title: '취소/환불',
-        url: '/dashboard/exam-registration/cancel',
+        title: '배정현황',
+        url: '/dashboard/exam-center/status',
         icon: 'x',
         shortcut: ['r', 'x']
-      },
-      {
-        title: '수험표발급',
-        url: '/dashboard/exam-registration/ticket',
-        icon: 'ticket',
-        shortcut: ['r', 't']
       }
     ]
   },
