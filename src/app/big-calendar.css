@@ -1,0 +1,369 @@
+/* BigCalendar 커스터마이징 - 더 예쁜 디자인 */
+.rbc-calendar {
+  font-family: inherit;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.rbc-header {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary)) 0%,
+    oklch(var(--primary) / 0.8) 100%
+  );
+  color: white;
+  font-weight: 600;
+  padding: 16px 12px;
+  border-bottom: 2px solid oklch(var(--primary) / 0.2);
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.rbc-today {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary) / 0.1) 0%,
+    oklch(var(--primary) / 0.05) 100%
+  );
+  position: relative;
+}
+
+.rbc-today::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--primary)) 0%,
+    oklch(var(--primary) / 0.7) 100%
+  );
+}
+
+.rbc-off-range-bg {
+  background-color: oklch(var(--muted) / 0.2);
+}
+
+.rbc-date-cell {
+  padding: 12px 8px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.rbc-date-cell:hover {
+  background-color: oklch(var(--muted) / 0.3);
+  transform: translateY(-1px);
+}
+
+.rbc-date-cell > a {
+  color: oklch(var(--foreground));
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.rbc-date-cell.rbc-now > a {
+  color: oklch(var(--primary));
+  font-weight: bold;
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary) / 0.1) 0%,
+    oklch(var(--primary) / 0.05) 100%
+  );
+  box-shadow: 0 2px 8px oklch(var(--primary) / 0.2);
+}
+
+.rbc-event {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary)) 0%,
+    oklch(var(--primary) / 0.8) 100%
+  );
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 11px;
+  padding: 4px 8px;
+  margin: 1px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.rbc-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.rbc-event-content {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.rbc-toolbar {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.rbc-toolbar button {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--background)) 0%,
+    oklch(var(--muted) / 0.5) 100%
+  );
+  border: 2px solid oklch(var(--border));
+  color: oklch(var(--foreground));
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.rbc-toolbar button:hover {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--muted)) 0%,
+    oklch(var(--muted) / 0.8) 100%
+  );
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rbc-toolbar button.rbc-active {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary)) 0%,
+    oklch(var(--primary) / 0.8) 100%
+  );
+  color: white;
+  border-color: oklch(var(--primary));
+  box-shadow: 0 4px 12px oklch(var(--primary) / 0.3);
+}
+
+.rbc-toolbar-label {
+  font-size: 20px;
+  font-weight: 700;
+  color: oklch(var(--foreground));
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.rbc-month-view {
+  border: 2px solid oklch(var(--border));
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+}
+
+.rbc-month-row {
+  border-bottom: 1px solid oklch(var(--border) / 0.5);
+}
+
+.rbc-month-row:last-child {
+  border-bottom: none;
+}
+
+.rbc-date-cell {
+  border-right: 1px solid oklch(var(--border) / 0.5);
+}
+
+.rbc-date-cell:last-child {
+  border-right: none;
+}
+
+.rbc-day-bg {
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.rbc-day-bg.rbc-today {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary) / 0.05) 0%,
+    oklch(var(--primary) / 0.02) 100%
+  );
+}
+
+.rbc-day-bg.rbc-off-range-bg {
+  background-color: oklch(var(--muted) / 0.2);
+}
+
+.rbc-day-bg.rbc-selected {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary) / 0.1) 0%,
+    oklch(var(--primary) / 0.05) 100%
+  );
+}
+
+/* 선택된 날짜를 달력에 표시하기 위한 커스텀 스타일 */
+.rbc-month-view .rbc-date-cell[data-selected='true'] {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary) / 0.2) 0%,
+    oklch(var(--primary) / 0.1) 100%
+  );
+  position: relative;
+}
+
+.rbc-month-view .rbc-date-cell[data-selected='true']::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 3px solid oklch(var(--primary));
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.rbc-month-view .rbc-date-cell[data-selected='true'] > a {
+  color: oklch(var(--primary));
+  font-weight: bold;
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary) / 0.15) 0%,
+    oklch(var(--primary) / 0.08) 100%
+  );
+  box-shadow: 0 4px 12px oklch(var(--primary) / 0.3);
+  transform: scale(1.05);
+}
+
+/* 활성화된 날짜 필드가 있을 때의 선택 스타일 */
+.rbc-month-view .rbc-date-cell[data-selected='true'][data-active='true'] {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--primary) / 0.3) 0%,
+    oklch(var(--primary) / 0.2) 100%
+  );
+}
+
+.rbc-month-view
+  .rbc-date-cell[data-selected='true'][data-active='true']::before {
+  border-color: oklch(var(--primary));
+  border-width: 4px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 oklch(var(--primary) / 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px oklch(var(--primary) / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 oklch(var(--primary) / 0);
+  }
+}
+
+/* 주말 스타일 */
+.rbc-date-cell:nth-child(7n) > a,
+.rbc-date-cell:nth-child(7n-1) > a {
+  color: oklch(var(--primary) / 0.7);
+}
+
+/* 이벤트 타입별 색상 */
+.rbc-event[data-event-type='exam'] {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.rbc-event[data-event-type='registration'] {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.rbc-event[data-event-type='result'] {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* 폼 이벤트 색상 */
+.rbc-event[title*='시험일정 시작'] {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.rbc-event[title*='시험일정 종료'] {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.rbc-event[title*='접수기간 시작'] {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.rbc-event[title*='접수기간 종료'] {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.rbc-event[title*='합격자발표'] {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.rbc-event[title*='50%환불기간 시작'] {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.rbc-event[title*='50%환불기간 종료'] {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.rbc-event[title*='수험표출력기간 시작'] {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.rbc-event[title*='수험표출력기간 종료'] {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rbc-calendar {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .rbc-toolbar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rbc-toolbar-label {
+    font-size: 18px;
+  }
+
+  .rbc-header {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+
+  .rbc-date-cell {
+    padding: 8px 4px;
+  }
+}
