@@ -335,7 +335,7 @@ export default function ExamCenterManage() {
             </CardHeader>
             <CardContent>
               <div className='flex items-center gap-2'>
-                {center.tags.slice(1).map((tag, idx) => (
+                {center.tags.slice(1).map((tag: string, idx: number) => (
                   <Badge key={idx} variant='outline' className='text-xs'>
                     {tag}
                   </Badge>
