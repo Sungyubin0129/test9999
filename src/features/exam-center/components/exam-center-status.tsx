@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -182,10 +182,9 @@ const generateAssignmentStatus = () => {
   return statuses;
 };
 
-const assignmentStatuses = generateAssignmentStatus();
-
 export default function ExamCenterStatus() {
   const [open, setOpen] = useState(false);
+  const [assignmentStatuses, setAssignmentStatuses] = useState<any[]>([]);
   const [filters, setFilters] = useState({
     qualification: 'all',
     region: 'all',
@@ -197,6 +196,11 @@ export default function ExamCenterStatus() {
     room: 'all',
     name: ''
   });
+
+  // useEffect를 사용하여 클라이언트에서만 데이터 생성
+  useEffect(() => {
+    setAssignmentStatuses(generateAssignmentStatus());
+  }, []);
 
   // 단계별 활성화 상태 확인
   const isStep1Complete =

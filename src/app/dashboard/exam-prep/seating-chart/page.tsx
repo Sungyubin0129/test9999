@@ -1,20 +1,20 @@
 'use client';
 
 import PageContainer from '@/components/layout/page-container';
-import ExamCenterStatus from '@/features/exam-center/components/exam-center-status';
+import SeatingChart from '@/features/exam-prep/components/seating-chart';
 import { Heading } from '@/components/ui/heading';
 
-export default function ExamCenterStatusPage() {
+export default function SeatingChartPage() {
   return (
     <PageContainer scrollable>
       <div className='w-full space-y-4'>
         <div className='flex items-start justify-between'>
           <Heading
-            title='배정현황'
-            description='고사장배정 현황을 확인할 수 있습니다'
+            title='좌석배치도'
+            description='시험 좌석배치도를 조회하고 출력합니다.'
           />
         </div>
-        <ExamCenterStatus />
+        <SeatingChart />
       </div>
     </PageContainer>
   );

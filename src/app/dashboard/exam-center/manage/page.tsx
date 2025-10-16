@@ -1,3 +1,5 @@
+'use client';
+
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
 import ExamCenterManage from '@/features/exam-center/components/exam-center-manage';

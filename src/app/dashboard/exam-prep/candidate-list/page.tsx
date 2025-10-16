@@ -1,20 +1,20 @@
 'use client';
 
 import PageContainer from '@/components/layout/page-container';
-import ExamCenterStatus from '@/features/exam-center/components/exam-center-status';
+import CandidateList from '@/features/exam-prep/components/candidate-list';
 import { Heading } from '@/components/ui/heading';
 
-export default function ExamCenterStatusPage() {
+export default function CandidateListPage() {
   return (
     <PageContainer scrollable>
       <div className='w-full space-y-4'>
         <div className='flex items-start justify-between'>
           <Heading
-            title='배정현황'
-            description='고사장배정 현황을 확인할 수 있습니다'
+            title='수험자명단'
+            description='시험 수험자명단을 조회하고 관리합니다.'
           />
         </div>
-        <ExamCenterStatus />
+        <CandidateList />
       </div>
     </PageContainer>
   );

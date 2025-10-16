@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -191,12 +191,17 @@ const generateExamCenters = () => {
   return centers;
 };
 
-const examCenters = generateExamCenters();
-
 export default function ExamCenterManage() {
   const router = useRouter();
+
+  const [examCenters, setExamCenters] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [department, setDepartment] = useState('all');
+
+  // useEffect를 사용하여 클라이언트에서만 데이터 생성
+  useEffect(() => {
+    setExamCenters(generateExamCenters());
+  }, []);
 
   const handleReset = () => {
     setSearchQuery('');

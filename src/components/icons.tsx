@@ -33,7 +33,33 @@ import {
   IconBrandGithub,
   IconAward,
   IconFileText as IconFileTextNew,
-  IconCalendar
+  IconCalendar,
+  IconClipboardList,
+  IconUsers,
+  IconLayoutGrid,
+  IconInfoCircle,
+  IconBooks,
+  IconFileCheck,
+  IconStar,
+  IconShieldCheck,
+  IconMapPin,
+  IconBuilding,
+  IconUserPlus,
+  IconList,
+  IconBell,
+  IconSpeakerphone,
+  IconMessages,
+  IconFolder,
+  IconHistory,
+  IconCalendarEvent,
+  IconMapPinCog,
+  IconUsersGroup,
+  IconCashBanknote,
+  IconClockPause,
+  IconCashOff,
+  IconReceipt,
+  IconMailFast,
+  IconClipboardText
 } from '@tabler/icons-react';
 
 export type Icon = React.ComponentType<IconProps>;
@@ -75,21 +101,39 @@ export const Icons = {
   fileText: IconFileTextNew,
   calendar: IconCalendar,
   creditCard: IconCreditCard,
-  // 삼일회계법인 메뉴용 아이콘들 (기존 아이콘으로 대체)
-  info: IconHelpCircle, // 시험안내
-  book: IconFile, // 종목소개
-  gift: IconAward, // 우대사항
-  shield: IconSettings, // 응시규정
-  edit: IconUserEdit, // 시험접수
-  search: IconHelpCircle, // 접수확인
-  x: IconX, // 취소
-  ticket: IconFileText, // 수험표발급
-  checkCircle: IconCheck, // 합격확인
-  certificate: IconAward, // 자격증신청
-  truck: IconArrowRight, // 자격증배송확인
-  bell: IconHelpCircle, // 정보마당 (IconBell 대신 IconHelpCircle 사용)
-  megaphone: IconHelpCircle, // 공지사항
-  message: IconHelpCircle, // Q&A
-  folder: IconFile, // 자료실
-  history: IconCalendar // 시험이력
+  clipboardList: IconClipboardList,
+  users: IconUsers,
+  layoutGrid: IconLayoutGrid,
+  // 최신 스타일 아이콘들
+  info: IconInfoCircle, // 접수관리
+  book: IconCalendarEvent, // 시험일정관리
+  guide: IconUsersGroup, // 고사장수용인원설정
+  gift: IconCashBanknote, // 접수/입금현황
+  shield: IconReceipt, // 기타 관리 메뉴들
+  mapPin: IconMapPin, // 고사장배정 (메인)
+  building: IconBuilding, // 고사장관리
+  userPlus: IconUserPlus, // 고사장배정 (서브)
+  listCheck: IconList, // 배정현황
+  bell: IconBell, // 정보마당
+  megaphone: IconSpeakerphone, // 공지사항
+  message: IconMessages, // Q&A
+  folder: IconFolder, // 자료실
+  history: IconHistory, // 시험이력
+  calendarEvent: IconCalendarEvent, // 시험일정관리
+  mapPinCog: IconMapPinCog, // 고사장지역설정
+  usersGroup: IconUsersGroup, // 고사장수용인원설정
+  cashBanknote: IconCashBanknote, // 접수/입금현황
+  clockPause: IconClockPause, // 연기자현황
+  cashOff: IconCashOff, // 환불자현황
+  receipt: IconReceipt, // 단체별응시료관리
+  mailFast: IconMailFast, // SMS발송
+  clipboardText: IconClipboardText, // 감독보고서
+  // 기존 호환성 유지
+  edit: IconUserEdit,
+  search: IconHelpCircle,
+  x: IconX,
+  ticket: IconFileText,
+  checkCircle: IconCheck,
+  certificate: IconAward,
+  truck: IconArrowRight
 };
