@@ -1,0 +1,21 @@
+'use client';
+
+import PageContainer from '@/components/layout/page-container';
+import ScheduleManagementForm from '@/features/registration/components/schedule-management-form';
+import { Heading } from '@/components/ui/heading';
+
+export default function ScheduleManagementFormPage() {
+  return (
+    <PageContainer scrollable>
+      <div className='w-full space-y-4'>
+        <div className='flex items-start justify-between'>
+          <Heading
+            title='일정관리'
+            description='시험 일정을 등록하고 관리합니다.'
+          />
+        </div>
+        <ScheduleManagementForm />
+      </div>
+    </PageContainer>
+  );
+}
