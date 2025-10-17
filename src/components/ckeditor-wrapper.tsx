@@ -31,47 +31,50 @@ export default function CKEditorWrapper({
         if (!isMounted) return;
 
         // React.createElement를 사용하여 동적으로 컴포넌트 생성
-        const EditorComponent = React.createElement(CKEditor, {
-          editor: ClassicEditor,
-          data: data,
-          config: {
-            toolbar: [
-              'heading',
-              '|',
-              'bold',
-              'italic',
-              'underline',
-              '|',
-              'bulletedList',
-              'numberedList',
-              '|',
-              'outdent',
-              'indent',
-              '|',
-              'blockQuote',
-              'link',
-              '|',
-              'undo',
-              'redo'
-            ],
-            ...config
-          },
-          onReady: (editor: any) => {
-            editorRef.current = editor;
-            // 에디터 높이 설정
-            editor.editing.view.change((writer: any) => {
-              writer.setStyle(
-                'min-height',
-                '400px',
-                editor.editing.view.document.getRoot()
-              );
-            });
-          },
-          onChange: (event: any, editor: any) => {
-            const editorData = editor.getData();
-            onChange(editorData);
-          }
-        });
+        const EditorComponent = React.createElement(
+          CKEditor as any,
+          {
+            editor: ClassicEditor,
+            data: data,
+            config: {
+              toolbar: [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                '|',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'outdent',
+                'indent',
+                '|',
+                'blockQuote',
+                'link',
+                '|',
+                'undo',
+                'redo'
+              ],
+              ...config
+            },
+            onReady: (editor: any) => {
+              editorRef.current = editor;
+              // 에디터 높이 설정
+              editor.editing.view.change((writer: any) => {
+                writer.setStyle(
+                  'min-height',
+                  '400px',
+                  editor.editing.view.document.getRoot()
+                );
+              });
+            },
+            onChange: (event: any, editor: any) => {
+              const editorData = editor.getData();
+              onChange(editorData);
+            }
+          } as any
+        );
 
         // 상태 업데이트를 통해 컴포넌트 렌더링
         setIsLoaded(true);
@@ -163,8 +166,10 @@ function CKEditorComponent({ data, onChange, config }: CKEditorWrapperProps) {
     );
   }
 
+  const EditorComponent = Editor as any;
+
   return (
-    <Editor
+    <EditorComponent
       editor={ClassicEditor}
       data={data}
       config={{

@@ -33,6 +33,7 @@ import {
   IconCalendar
 } from '@tabler/icons-react';
 import dynamic from 'next/dynamic';
+import { useCustomAlert } from '@/components/ui/custom-alert';
 
 const CKEditorComponent = dynamic(
   () => import('@/components/ckeditor-wrapper'),
@@ -99,6 +100,7 @@ const mockNotices: Record<string, any> = {
 
 export default function NoticeEditPage() {
   const router = useRouter();
+  const { showAlert } = useCustomAlert();
   const searchParams = useSearchParams();
   const noticeId = searchParams.get('id');
 
@@ -131,13 +133,21 @@ export default function NoticeEditPage() {
 
   const handleSaveDraft = () => {
     console.log('임시저장:', { noticeId, title, content, type, targetUsers });
-    alert('임시저장되었습니다.');
+    showAlert({
+      type: 'success',
+      message: '공지사항이 임시저장되었습니다.'
+    });
   };
 
   const handlePublish = () => {
     console.log('수정 완료:', { noticeId, title, content, type, targetUsers });
-    alert('공지사항이 수정되었습니다.');
-    router.push('/dashboard/profile/notice-management');
+    showAlert({
+      type: 'success',
+      message: '공지사항이 성공적으로 수정되었습니다.'
+    });
+    setTimeout(() => {
+      router.push('/dashboard/profile/notice-management');
+    }, 1500);
   };
 
   if (isLoading) {
@@ -182,27 +192,27 @@ export default function NoticeEditPage() {
         <div className='space-y-4 overflow-y-auto border-r p-6 pb-18 lg:col-span-5'>
           {/* 제목 및 수정 안내 섹션 */}
           <Card>
-            <CardHeader className='pb-4'>
+            <CardHeader className='pb-3'>
               <div className='flex items-center justify-between'>
-                <CardTitle className='text-lg'>📋 공지사항 정보</CardTitle>
+                <CardTitle className='text-base'>📋 공지사항 정보</CardTitle>
                 <Badge className={`${typeConfig[type].color} text-xs`}>
                   {typeConfig[type].icon} {typeConfig[type].label}
                 </Badge>
               </div>
-              <CardDescription>
+              <CardDescription className='text-xs'>
                 공지사항의 기본 정보를 수정하세요
               </CardDescription>
             </CardHeader>
-            <CardContent className='space-y-4'>
+            <CardContent className='space-y-3'>
               {/* 수정 안내 */}
-              <div className='rounded-lg border border-blue-200 bg-blue-50 p-4'>
-                <div className='mb-2 flex items-center gap-2'>
-                  <IconInfoCircle className='h-4 w-4 text-blue-600' />
-                  <h3 className='text-sm font-semibold text-blue-900'>
+              <div className='rounded-lg border border-blue-200 bg-blue-50 p-3'>
+                <div className='mb-1.5 flex items-center gap-2'>
+                  <IconInfoCircle className='h-3.5 w-3.5 text-blue-600' />
+                  <h3 className='text-xs font-semibold text-blue-900'>
                     수정 안내
                   </h3>
                 </div>
-                <div className='space-y-2 text-xs text-blue-800'>
+                <div className='space-y-1 text-[11px] text-blue-800'>
                   <div className='flex items-start gap-2'>
                     <span className='mt-0.5 text-blue-600'>•</span>
                     <p>수정된 내용은 즉시 사용자에게 표시됩니다</p>
@@ -352,47 +362,45 @@ export default function NoticeEditPage() {
             </CardContent>
           </Card>
 
-          {/* 주의사항 및 작업 버튼 - 간소화 */}
+          {/* 주의사항 및 작업 버튼 - 최소화 */}
           <Card className='border-orange-200 bg-orange-50/30'>
-            <CardContent className='pt-3 pb-3'>
-              <div className='space-y-3'>
-                {/* 주의사항 - 간소화 */}
-                <div>
-                  <div className='mb-1.5 flex items-center gap-2'>
-                    <IconAlertCircle className='h-3.5 w-3.5 text-orange-600' />
-                    <h3 className='text-xs font-semibold text-orange-900'>
-                      주의사항
-                    </h3>
-                  </div>
-                  <div className='text-[11px] leading-relaxed text-orange-800'>
+            <CardContent className='px-4 py-2'>
+              <div className='flex items-center justify-between gap-4'>
+                {/* 주의사항 - 한 줄로 압축 */}
+                <div className='flex items-center gap-2 text-[10px] text-orange-800'>
+                  <IconAlertCircle className='h-3 w-3 flex-shrink-0 text-orange-600' />
+                  <span>
                     긴급 공지는 최상단 강조 • 수정 내역 자동 기록 • 저장 후 적용
-                  </div>
+                  </span>
                 </div>
 
-                <Separator />
-
                 {/* 작업 버튼 */}
-                <div className='flex items-center justify-end gap-2'>
-                  <Button variant='ghost' onClick={handleCancel} size='sm'>
+                <div className='flex flex-shrink-0 items-center gap-2'>
+                  <Button
+                    variant='ghost'
+                    onClick={handleCancel}
+                    size='sm'
+                    className='h-8'
+                  >
                     취소
                   </Button>
                   <Button
                     variant='outline'
                     onClick={handleSaveDraft}
                     disabled={!title.trim() || !content.trim()}
-                    className='gap-2'
+                    className='h-8 gap-2'
                     size='sm'
                   >
-                    <IconDeviceFloppy className='h-4 w-4' />
+                    <IconDeviceFloppy className='h-3.5 w-3.5' />
                     임시저장
                   </Button>
                   <Button
                     onClick={handlePublish}
                     disabled={!title.trim() || !content.trim()}
-                    className='gap-2'
+                    className='h-8 gap-2'
                     size='sm'
                   >
-                    <IconSend className='h-4 w-4' />
+                    <IconSend className='h-3.5 w-3.5' />
                     수정 완료
                   </Button>
                 </div>
