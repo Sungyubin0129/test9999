@@ -287,6 +287,7 @@ export default function ExamCenterRegionSettingsFormPage() {
       }
     }
     setRowData(generateExamCenterDetailData());
+    setExamCenterListData(generateExamCenterListData());
   }, [id]);
 
   // 필터링된 데이터
@@ -314,6 +315,25 @@ export default function ExamCenterRegionSettingsFormPage() {
     });
   }, [rowData, filters]);
 
+  // 고사장 리스트 필터링된 데이터
+  const filteredExamCenterData = useMemo(() => {
+    return examCenterListData.filter((row) => {
+      const matchesRegion =
+        examCenterFilters.region === '' ||
+        row.region === examCenterFilters.region;
+      const matchesSearch =
+        examCenterFilters.search === '' ||
+        row.examCenter
+          .toLowerCase()
+          .includes(examCenterFilters.search.toLowerCase()) ||
+        row.address
+          .toLowerCase()
+          .includes(examCenterFilters.search.toLowerCase());
+
+      return matchesRegion && matchesSearch;
+    });
+  }, [examCenterListData, examCenterFilters]);
+
   // AG Grid 컬럼 정의
   const columnDefs = useMemo<ColDef<ExamCenterDetailData>[]>(
     () => [
@@ -322,7 +342,7 @@ export default function ExamCenterRegionSettingsFormPage() {
         valueGetter: (params) => {
           // 전체 데이터 길이에서 현재 행 인덱스를 빼서 내림차순 번호 생성
           const totalRows = params.api.getDisplayedRowCount();
-          return totalRows - params.node.rowIndex;
+          return totalRows - (params.node?.rowIndex || 0);
         },
         filter: false,
         sortable: false,
@@ -365,6 +385,68 @@ export default function ExamCenterRegionSettingsFormPage() {
     []
   );
 
+  // 고사장 리스트 모달 컬럼 정의
+  const examCenterColumnDefs = useMemo<ColDef<ExamCenterListData>[]>(
+    () => [
+      {
+        headerName: 'No',
+        valueGetter: (params) => {
+          const totalRows = params.api.getDisplayedRowCount();
+          return totalRows - (params.node?.rowIndex || 0);
+        },
+        filter: false,
+        sortable: false,
+        width: 70,
+        maxWidth: 70,
+        cellStyle: { textAlign: 'center' },
+        checkboxSelection: true,
+        headerCheckboxSelection: true
+      },
+      {
+        headerName: '지역',
+        field: 'region',
+        filter: true,
+        sortable: true,
+        flex: 1,
+        minWidth: 120
+      },
+      {
+        headerName: '고사장',
+        field: 'examCenter',
+        filter: true,
+        sortable: true,
+        flex: 2,
+        minWidth: 200
+      },
+      {
+        headerName: '주소',
+        field: 'address',
+        filter: true,
+        sortable: true,
+        flex: 3,
+        minWidth: 300
+      },
+      {
+        headerName: '수용인원',
+        field: 'capacity',
+        filter: true,
+        sortable: true,
+        flex: 1,
+        minWidth: 120,
+        cellStyle: { textAlign: 'center' }
+      },
+      {
+        headerName: '시설',
+        field: 'facilities',
+        filter: true,
+        sortable: true,
+        flex: 2,
+        minWidth: 200
+      }
+    ],
+    []
+  );
+
   const defaultColDef = useMemo<ColDef>(
     () => ({
       sortable: true,
@@ -379,6 +461,53 @@ export default function ExamCenterRegionSettingsFormPage() {
   const onGridReady = useCallback((params: { api: GridApi }) => {
     setGridApi(params.api);
   }, []);
+
+  // 고사장 리스트 모달 Grid API 연결
+  const onExamCenterGridReady = useCallback((params: { api: GridApi }) => {
+    setExamCenterGridApi(params.api);
+  }, []);
+
+  // 고사장 리스트 모달 열기
+  const handleOpenExamCenterModal = useCallback(() => {
+    setIsExamCenterModalOpen(true);
+  }, []);
+
+  // 고사장 리스트 모달 닫기
+  const handleCloseExamCenterModal = useCallback(() => {
+    setIsExamCenterModalOpen(false);
+    setSelectedExamCenters([]);
+    setExamCenterFilters({ region: '', search: '' });
+  }, []);
+
+  // 고사장 리스트 필터 변경
+  const handleExamCenterFilterChange = useCallback(
+    (name: string, value: string) => {
+      setExamCenterFilters((prev) => ({ ...prev, [name]: value }));
+    },
+    []
+  );
+
+  // 선택된 고사장 확인
+  const handleConfirmExamCenters = useCallback(() => {
+    if (examCenterGridApi) {
+      const selectedNodes = examCenterGridApi.getSelectedNodes();
+      const selected = selectedNodes.map((node) => node.data);
+      setSelectedExamCenters(selected);
+
+      // 선택된 고사장을 메인 그리드에 추가
+      const newRowData = selected.map((examCenter, index) => ({
+        id: rowData.length + index + 1,
+        region: examCenter.region,
+        examCenter: examCenter.examCenter,
+        capacity: examCenter.capacity.toString()
+      }));
+
+      setRowData((prev) => [...prev, ...newRowData]);
+      setIsExamCenterModalOpen(false);
+      setSelectedExamCenters([]);
+      setExamCenterFilters({ region: '', search: '' });
+    }
+  }, [examCenterGridApi, rowData.length]);
 
   // 동적 테마 색상 적용 (시험일정관리와 동일)
   useEffect(() => {
@@ -691,9 +820,8 @@ export default function ExamCenterRegionSettingsFormPage() {
   }, [gridApi]);
 
   const handleSubmit = () => {
-    console.log('등록 완료');
-    alert('등록이 완료되었습니다.');
-    router.push('/dashboard/exam-center/region-settings');
+    // 고사장 리스트 모달 열기
+    handleOpenExamCenterModal();
   };
 
   const handleCancel = () => {
@@ -949,6 +1077,116 @@ export default function ExamCenterRegionSettingsFormPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* 고사장 리스트 모달 */}
+        <Dialog
+          open={isExamCenterModalOpen}
+          onOpenChange={setIsExamCenterModalOpen}
+        >
+          <DialogContent className='max-h-[80vh] max-w-6xl'>
+            <DialogHeader>
+              <DialogTitle>고사장 리스트</DialogTitle>
+            </DialogHeader>
+
+            {/* 필터 영역 */}
+            <div className='space-y-4'>
+              <div className='flex gap-4'>
+                <div className='flex-1'>
+                  <label className='mb-2 block text-sm font-medium text-gray-700'>
+                    지역명
+                  </label>
+                  <Select
+                    value={examCenterFilters.region}
+                    onValueChange={(value) =>
+                      handleExamCenterFilterChange('region', value)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder='지역을 선택하세요' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value=''>전체</SelectItem>
+                      {[
+                        '강원',
+                        '경기',
+                        '경기(송내)',
+                        '경주',
+                        '광주',
+                        '당진',
+                        '대구',
+                        '대전',
+                        '부산',
+                        '서울',
+                        '서울(구룡)',
+                        '서울(무학)',
+                        '서울(여자)',
+                        '서울(한양중공업)',
+                        '아산(천안)',
+                        '안동',
+                        '울산',
+                        '인천',
+                        '전주(익산)',
+                        '창원',
+                        '청주'
+                      ].map((region) => (
+                        <SelectItem key={region} value={region}>
+                          {region}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className='flex-1'>
+                  <label className='mb-2 block text-sm font-medium text-gray-700'>
+                    고사장 검색
+                  </label>
+                  <div className='relative'>
+                    <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400' />
+                    <Input
+                      placeholder='고사장명 또는 주소를 입력하세요'
+                      value={examCenterFilters.search}
+                      onChange={(e) =>
+                        handleExamCenterFilterChange('search', e.target.value)
+                      }
+                      className='pl-10'
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 고사장 리스트 그리드 */}
+            <div
+              className='ag-theme-quartz'
+              style={{ height: '400px', width: '100%' }}
+            >
+              <AgGridReact
+                ref={examCenterGridRef}
+                rowData={filteredExamCenterData}
+                columnDefs={examCenterColumnDefs}
+                defaultColDef={defaultColDef}
+                onGridReady={onExamCenterGridReady}
+                pagination={true}
+                paginationPageSize={10}
+                rowSelection='multiple'
+                animateRows={true}
+                enableCellTextSelection={true}
+                suppressRowClickSelection={false}
+                rowMultiSelectWithClick={true}
+              />
+            </div>
+
+            <DialogFooter>
+              <Button variant='outline' onClick={handleCloseExamCenterModal}>
+                취소
+              </Button>
+              <Button onClick={handleConfirmExamCenters} className='gap-2'>
+                <Check className='h-4 w-4' />
+                확인
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </PageContainer>
   );
