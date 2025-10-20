@@ -195,6 +195,12 @@ export const navItems: NavItem[] = [
         url: '/dashboard/profile/certificates',
         icon: 'award',
         shortcut: ['m', 'c']
+      },
+      {
+        title: '공지사항 관리',
+        url: '/dashboard/profile/notice-management',
+        icon: 'megaphone',
+        shortcut: ['m', 'n']
       }
     ]
   }
@@ -249,5 +255,178 @@ export const recentSalesData: SaleUser[] = [
     amount: '+$39.00',
     image: 'https://api.slingacademy.com/public/sample-users/5.png',
     initials: 'SD'
+  }
+];
+
+// 시험 일정 데이터
+export interface ExamScheduleData {
+  id: string;
+  title: string;
+  examDate: Date;
+  registrationStart: Date;
+  registrationEnd: Date;
+  resultDate: Date;
+  currentPhase: 'announcement' | 'registration' | 'exam' | 'result';
+  registeredCount: number;
+  maxCapacity: number;
+  color: 'blue' | 'green' | 'purple' | 'orange' | 'red';
+  icon: string;
+}
+
+export const examScheduleData: ExamScheduleData[] = [
+  {
+    id: 'cpa-31',
+    title: '제31회 보험중개사',
+    examDate: new Date('2025-11-09'),
+    registrationStart: new Date('2025-07-04'),
+    registrationEnd: new Date('2025-09-26'),
+    resultDate: new Date('2025-12-19'),
+    currentPhase: 'announcement', // 1. 시험실시 공고 단계
+    registeredCount: 0,
+    maxCapacity: 2000,
+    color: 'blue',
+    icon: '📋'
+  },
+  {
+    id: 'accounting-1-56',
+    title: '제56회 회계관리 1급',
+    examDate: new Date('2025-02-22'),
+    registrationStart: new Date('2025-01-15'),
+    registrationEnd: new Date('2025-02-15'),
+    resultDate: new Date('2025-03-15'),
+    currentPhase: 'registration', // 2. 원서접수 단계
+    registeredCount: 892,
+    maxCapacity: 1500,
+    color: 'green',
+    icon: '📊'
+  },
+  {
+    id: 'accounting-2-56',
+    title: '제56회 회계관리 2급',
+    examDate: new Date('2025-02-22'),
+    registrationStart: new Date('2025-01-15'),
+    registrationEnd: new Date('2025-02-15'),
+    resultDate: new Date('2025-03-15'),
+    currentPhase: 'exam', // 3. 시험실시 단계
+    registeredCount: 1534,
+    maxCapacity: 2500,
+    color: 'purple',
+    icon: '📈'
+  },
+  {
+    id: 'financial-manager-56',
+    title: '제56회 재경관리사',
+    examDate: new Date('2025-02-22'),
+    registrationStart: new Date('2025-01-15'),
+    registrationEnd: new Date('2025-02-15'),
+    resultDate: new Date('2025-03-15'),
+    currentPhase: 'result', // 4. 합격자 발표 단계
+    registeredCount: 2156,
+    maxCapacity: 3000,
+    color: 'orange',
+    icon: '💼'
+  }
+];
+
+// 관리자 활동 타임라인 데이터
+export interface AdminActivityData {
+  id: string;
+  time: string;
+  type:
+    | 'login'
+    | 'notice'
+    | 'query'
+    | 'approval'
+    | 'alert'
+    | 'system'
+    | 'backup'
+    | 'support';
+  title: string;
+  description: string;
+  admin: string;
+  status: 'completed' | 'processing' | 'pending' | 'failed';
+  priority: 'high' | 'medium' | 'low';
+}
+
+export const adminActivityData: AdminActivityData[] = [
+  {
+    id: 'activity-1',
+    time: '09:30am',
+    type: 'login',
+    title: '관리자 로그인',
+    description: '시험관리팀 김관리자님이 시스템에 로그인했습니다.',
+    admin: '김관리자 (시험관리팀)',
+    status: 'completed',
+    priority: 'low'
+  },
+  {
+    id: 'activity-2',
+    time: '10:00am',
+    type: 'notice',
+    title: '공지사항 등록',
+    description: '"제56회 회계관리 시험장 변경 안내" 공지사항을 등록했습니다.',
+    admin: '이관리자 (운영팀)',
+    status: 'completed',
+    priority: 'medium'
+  },
+  {
+    id: 'activity-3',
+    time: '10:30am',
+    type: 'approval',
+    title: '특별 접수 승인',
+    description: '장애인 편의시설 요청 5건을 검토하여 승인 처리했습니다.',
+    admin: '박관리자 (접수관리팀)',
+    status: 'completed',
+    priority: 'high'
+  },
+  {
+    id: 'activity-4',
+    time: '11:15am',
+    type: 'query',
+    title: '데이터 조회',
+    description: '재경관리사 접수 현황 리포트를 생성했습니다.',
+    admin: '최관리자 (데이터팀)',
+    status: 'completed',
+    priority: 'medium'
+  },
+  {
+    id: 'activity-5',
+    time: '12:00pm',
+    type: 'backup',
+    title: '일일 백업 실행',
+    description: '시스템 데이터베이스 정기 백업이 완료되었습니다.',
+    admin: '시스템 자동화',
+    status: 'completed',
+    priority: 'low'
+  },
+  {
+    id: 'activity-6',
+    time: '14:30pm',
+    type: 'alert',
+    title: '긴급 알림 발송',
+    description: '접수 마감 3일 전 SMS 알림을 2,456명에게 발송했습니다.',
+    admin: '정관리자 (알림팀)',
+    status: 'processing',
+    priority: 'high'
+  },
+  {
+    id: 'activity-7',
+    time: '15:45pm',
+    type: 'support',
+    title: '고객 지원',
+    description: '시험 접수 관련 전화 문의 15건을 처리했습니다.',
+    admin: '한관리자 (고객지원팀)',
+    status: 'completed',
+    priority: 'medium'
+  },
+  {
+    id: 'activity-8',
+    time: '16:20pm',
+    type: 'system',
+    title: '시스템 점검',
+    description: '서버 성능 모니터링 및 보안 패치를 적용했습니다.',
+    admin: '장관리자 (시스템팀)',
+    status: 'processing',
+    priority: 'high'
   }
 ];

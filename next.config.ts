@@ -14,6 +14,26 @@ const baseConfig: NextConfig = {
   },
   transpilePackages: ['geist'],
 
+  // CKEditor 지원을 위한 webpack 설정
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false
+      };
+    }
+
+    // CKEditor SVG 파일 처리
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack']
+    });
+
+    return config;
+  },
+
   // Java 백엔드 API 프록시 설정
   async rewrites() {
     return [

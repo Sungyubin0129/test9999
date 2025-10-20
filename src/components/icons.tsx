@@ -48,6 +48,7 @@ import {
   IconList,
   IconBell,
   IconSpeakerphone,
+  IconSpeakerphone as IconMegaphone,
   IconMessages,
   IconFolder,
   IconHistory,

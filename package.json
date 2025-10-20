@@ -1,11 +1,8 @@
 {
-  "name": "next-shadcn-dashboard-starter",
+  "name": "education-exam-management-system",
   "version": "1.0.0",
   "private": true,
-  "author": {
-    "name": "Kiran",
-    "url": "https://github.com/Kiranism"
-  },
+  "description": "교육 및 시험 관리 시스템 - Education & Examination Management System",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -23,6 +20,8 @@
     ]
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
+    "@ckeditor/ckeditor5-react": "^7.0.0",
     "@clerk/nextjs": "^6.12.12",
     "@clerk/themes": "^2.2.26",
     "@dnd-kit/core": "^6.3.1",

@@ -1,115 +1,165 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/9113740/201498864-2a900c64-d88f-4ed4-b5cf-770bcb57e1f5.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/9113740/201498152-b171abb8-9225-487a-821c-6ff49ee48579.png">
-</picture>
-
-<div align="center"><strong>Next.js Admin Dashboard Starter Template With Shadcn-ui</strong></div>
-<div align="center">Built with the Next.js 15 App Router</div>
-<br />
 <div align="center">
-<a href="https://dub.sh/shadcn-dashboard">View Demo</a>
-<span>
+<h1>교육 및 시험 관리 시스템</h1>
+<strong>Education & Examination Management System</strong>
 </div>
+<div align="center">Next.js 15 기반 교육 및 자격증 시험 관리 플랫폼</div>
+<br />
 
-## Overview
+## 개요
 
-This is a starter template using the following stack:
+교육 기관 및 자격증 시험을 관리하는 종합 관리 시스템입니다. 
 
-- Framework - [Next.js 15](https://nextjs.org/13)
+### 주요 기능
+
+- 📝 **시험 관리**: CBT(Computer Based Test) 시스템 및 시험 센터 운영
+- 📚 **교육 관리**: 교육 과정 및 자격증 정보 관리
+- 📢 **공지사항**: 팝업 및 일반 공지사항 관리 시스템
+- 💳 **결제 시스템**: 교육 및 시험 결제 처리
+- 👥 **사용자 관리**: 학생, 강사, 관리자 프로필 관리
+- 📊 **대시보드**: 통계 및 분석 데이터 시각화
+
+### 기술 스택
+
+- Framework - [Next.js 15](https://nextjs.org) (App Router)
 - Language - [TypeScript](https://www.typescriptlang.org)
-- Auth - [Clerk](https://go.clerk.com/ILdYhn7)
-- Error tracking - [<picture><img alt="Sentry" src="public/assets/sentry.svg">
-        </picture>](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy26q2-nextjs&utm_content=github-banner-project-tryfree)
+- Auth - [Clerk](https://clerk.com)
 - Styling - [Tailwind CSS v4](https://tailwindcss.com)
 - Components - [Shadcn-ui](https://ui.shadcn.com)
 - Schema Validations - [Zod](https://zod.dev)
 - State Management - [Zustand](https://zustand-demo.pmnd.rs)
-- Search params state manager - [Nuqs](https://nuqs.47ng.com/)
-- Tables - [Tanstack Data Tables](https://ui.shadcn.com/docs/components/data-table) • [Dice table](https://www.diceui.com/docs/components/data-table)
+- Rich Text Editor - [CKEditor 5](https://ckeditor.com)
+- Tables - [Tanstack Data Tables](https://ui.shadcn.com/docs/components/data-table)
 - Forms - [React Hook Form](https://ui.shadcn.com/docs/components/form)
 - Command+k interface - [kbar](https://kbar.vercel.app/)
-- Linting - [ESLint](https://eslint.org)
-- Pre-commit Hooks - [Husky](https://typicode.github.io/husky/)
-- Formatting - [Prettier](https://prettier.io)
+- Error tracking - [Sentry](https://sentry.io)
+- Linting - [ESLint](https://eslint.org) / [Prettier](https://prettier.io)
 
-_If you are looking for a Tanstack start dashboard template, here is the [repo](https://git.new/tanstack-start-dashboard)._
+## 주요 페이지
 
-## Pages
+| 페이지 | 설명 |
+| :--- | :--- |
+| **인증** | |
+| `/auth/sign-in` | 로그인 페이지 (Clerk 인증) |
+| `/auth/sign-up` | 회원가입 페이지 |
+| **대시보드** | |
+| `/dashboard/overview` | 대시보드 메인 - 통계 및 분석 그래프 (Recharts) |
+| **시험 관리** | |
+| `/dashboard/exam` | 시험 목록 및 관리 |
+| `/dashboard/exam-center` | 시험 센터 관리 |
+| `/dashboard/exam-prep` | 시험 준비 자료 |
+| `/dashboard/exam-info` | 시험 정보 |
+| `/dashboard/cbt` | CBT(Computer Based Test) 시스템 |
+| **교육 및 자격증** | |
+| `/dashboard/qualification` | 자격증 정보 관리 |
+| **결제** | |
+| `/dashboard/payment` | 결제 처리 및 내역 |
+| **상품 관리** | |
+| `/dashboard/product` | 상품 목록 (Tanstack Table, 서버 사이드 검색/필터/페이지네이션) |
+| **프로필** | |
+| `/dashboard/profile` | 사용자 프로필 및 설정 |
+| `/dashboard/profile/notice-management` | 공지사항 관리 (CKEditor 리치 텍스트 에디터) |
+| **관리자** | |
+| `/dashboard/admin` | 관리자 전용 페이지 |
+| **기타** | |
+| `/dashboard/kanban` | 칸반 보드 (드래그 앤 드롭 작업 관리) |
 
-| Pages                                                                                 | Specifications                                                                                                                                                                                                                                                          |
-| :------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Signup / Signin](https://go.clerk.com/ILdYhn7)      | Authentication with **Clerk** provides secure authentication and user management with multiple sign-in options including passwordless authentication, social logins, and enterprise SSO - all designed to enhance security while delivering a seamless user experience. |
-| [Dashboard (Overview)](https://shadcn-dashboard.kiranism.dev/dashboard)    | Cards with Recharts graphs for analytics. Parallel routes in the overview sections feature independent loading, error handling, and isolated component rendering. |
-| [Product](https://shadcn-dashboard.kiranism.dev/dashboard/product)         | Tanstack tables with server side searching, filter, pagination by Nuqs which is a Type-safe search params state manager in nextjs                                                                                                                                       |
-| [Product/new](https://shadcn-dashboard.kiranism.dev/dashboard/product/new) | A Product Form with shadcn form (react-hook-form + zod).                                                                                                                                                                                                                |
-| [Profile](https://shadcn-dashboard.kiranism.dev/dashboard/profile)         | Clerk's full-featured account management UI that allows users to manage their profile and security settings                                                                                                                                                             |
-| [Kanban Board](https://shadcn-dashboard.kiranism.dev/dashboard/kanban)     | A Drag n Drop task management board with dnd-kit and zustand to persist state locally.                                                                                                                                                                                  |
-| [Not Found](https://shadcn-dashboard.kiranism.dev/dashboard/notfound)      | Not Found Page Added in the root level                                                                                                                                                                                                                                  |
-| [Global Error](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy26q2-nextjs&utm_content=github-banner-project-tryfree)           | A centralized error page that captures and displays errors across the application. Integrated with **Sentry** to log errors, provide detailed reports, and enable replay functionality for better debugging. |
-
-## Feature based organization
+## 프로젝트 구조
 
 ```plaintext
 src/
-├── app/ # Next.js App Router directory
-│ ├── (auth)/ # Auth route group
-│ │ ├── (signin)/
-│ ├── (dashboard)/ # Dashboard route group
-│ │ ├── layout.tsx
-│ │ ├── loading.tsx
-│ │ └── page.tsx
-│ └── api/ # API routes
+├── app/                              # Next.js App Router
+│   ├── auth/                        # 인증 페이지
+│   │   ├── sign-in/                # 로그인
+│   │   └── sign-up/                # 회원가입
+│   ├── dashboard/                   # 대시보드
+│   │   ├── overview/               # 메인 대시보드
+│   │   ├── exam/                   # 시험 관리
+│   │   ├── exam-center/            # 시험 센터 관리
+│   │   ├── exam-prep/              # 시험 준비
+│   │   ├── exam-info/              # 시험 정보
+│   │   ├── cbt/                    # CBT 시스템
+│   │   ├── qualification/          # 자격증 관리
+│   │   ├── payment/                # 결제
+│   │   ├── product/                # 상품 관리
+│   │   ├── profile/                # 프로필
+│   │   │   └── notice-management/  # 공지사항 관리
+│   │   ├── admin/                  # 관리자
+│   │   └── kanban/                 # 칸반 보드
+│   ├── globals.css                 # 전역 스타일
+│   └── layout.tsx                  # 루트 레이아웃
 │
-├── components/ # Shared components
-│ ├── ui/ # UI components (buttons, inputs, etc.)
-│ └── layout/ # Layout components (header, sidebar, etc.)
+├── components/                      # 공유 컴포넌트
+│   ├── ui/                         # UI 기본 컴포넌트
+│   ├── layout/                     # 레이아웃 컴포넌트
+│   ├── forms/                      # 폼 컴포넌트
+│   ├── notice-editor.tsx           # 공지사항 에디터
+│   ├── ckeditor-wrapper.tsx        # CKEditor 래퍼
+│   └── ...                         # 기타 컴포넌트
 │
-├── features/ # Feature-based modules
-│ ├── feature/
-│ │ ├── components/ # Feature-specific components
-│ │ ├── actions/ # Server actions
-│ │ ├── schemas/ # Form validation schemas
-│ │ └── utils/ # Feature-specific utilities
-│ │
-├── lib/ # Core utilities and configurations
-│ ├── auth/ # Auth configuration
-│ ├── db/ # Database utilities
-│ └── utils/ # Shared utilities
+├── features/                        # 기능별 모듈
+│   ├── auth/                       # 인증 관련
+│   ├── exam/                       # 시험 관련
+│   ├── exam-center/                # 시험 센터
+│   ├── exam-prep/                  # 시험 준비
+│   ├── cbt/                        # CBT 시스템
+│   ├── payment/                    # 결제
+│   ├── products/                   # 상품
+│   ├── profile/                    # 프로필
+│   ├── qualification/              # 자격증
+│   ├── overview/                   # 대시보드 개요
+│   ├── kanban/                     # 칸반
+│   └── admin/                      # 관리자
 │
-├── hooks/ # Custom hooks
-│ └── use-debounce.ts
+├── lib/                            # 유틸리티 및 설정
+│   ├── auth-config.ts             # 인증 설정
+│   ├── db/                        # 데이터베이스
+│   ├── utils.ts                   # 유틸 함수
+│   └── ...
 │
-├── stores/ # Zustand stores
-│ └── dashboard-store.ts
+├── hooks/                          # 커스텀 훅
+│   ├── use-data-table.ts
+│   ├── use-debounce.tsx
+│   └── ...
 │
-└── types/ # TypeScript types
-└── index.ts
+└── types/                          # TypeScript 타입
+    └── index.ts
 ```
 
-## Getting Started
+## 시작하기
 
 > [!NOTE]  
-> We are using **Next 15** with **React 19**, follow these steps:
+> 이 프로젝트는 **Next.js 15**와 **React 19**를 사용합니다.
 
-Clone the repo:
+### 설치 및 실행
 
+1. 의존성 설치:
+   ```bash
+   pnpm install
+   ```
+
+2. 환경 변수 설정:
+   ```bash
+   cp env.example.txt .env.local
+   ```
+   `.env.local` 파일에 필요한 환경 변수를 추가하세요.
+
+3. 개발 서버 실행:
+   ```bash
+   pnpm run dev
+   ```
+
+4. 브라우저에서 [http://localhost:3000](http://localhost:3000) 접속
+
+### 환경 변수 설정
+
+`env.example.txt` 파일을 참고하여 다음 환경 변수를 설정하세요:
+- Clerk 인증 관련 설정
+- Sentry 에러 트래킹 설정
+- 기타 필요한 API 키 및 설정
+
+### 빌드
+
+```bash
+pnpm run build
+pnpm run start
 ```
-git clone https://github.com/Kiranism/next-shadcn-dashboard-starter.git
-```
-
-- `pnpm install` ( we have legacy-peer-deps=true added in the .npmrc)
-- Create a `.env.local` file by copying the example environment file:
-  `cp env.example.txt .env.local`
-- Add the required environment variables to the `.env.local` file.
-- `pnpm run dev`
-
-##### Environment Configuration Setup
-
-To configure the environment for this project, refer to the `env.example.txt` file. This file contains the necessary environment variables required for authentication and error tracking.
-
-You should now be able to access the application at http://localhost:3000.
-
-> [!WARNING]
-> After cloning or forking the repository, be cautious when pulling or syncing with the latest changes, as this may result in breaking conflicts.
-
-Cheers! 🥂
