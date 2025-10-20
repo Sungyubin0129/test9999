@@ -185,7 +185,7 @@ export default function ExamCenterRegionSettings() {
         valueGetter: (params) => {
           // 전체 데이터 길이에서 현재 행 인덱스를 빼서 내림차순 번호 생성
           const totalRows = params.api.getDisplayedRowCount();
-          return totalRows - params.node.rowIndex;
+          return totalRows - (params.node?.rowIndex || 0);
         },
         filter: false,
         sortable: false,
