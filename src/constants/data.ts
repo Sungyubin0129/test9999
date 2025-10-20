@@ -36,7 +36,7 @@ export const navItems: NavItem[] = [
       },
       {
         title: '고사장지역설정',
-        url: '/dashboard/registration/venue-region-settings',
+        url: '/dashboard/exam-center/region-settings',
         icon: 'mapPinCog',
         shortcut: ['r', 'v']
       },

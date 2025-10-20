@@ -28,72 +28,36 @@ const localeText = {
   notContains: '포함하지 않음',
   startsWith: '로 시작',
   endsWith: '로 끝남',
-  andCondition: '그리고',
-  orCondition: '또는',
-  applyFilter: '필터 적용',
-  resetFilter: '필터 초기화',
-  clearFilter: '필터 지우기',
-
   // 정렬 관련
   sortAscending: '오름차순 정렬',
   sortDescending: '내림차순 정렬',
   sortUnSort: '정렬 해제',
-
-  // 기타
-  noRowsToShow: '표시할 데이터가 없습니다',
-  loadingOoo: '로딩 중...',
+  // 페이지네이션 관련
   page: '페이지',
-  more: '더보기',
+  moreRows: '더 많은 행',
   to: '~',
   of: '/',
-  next: '다음',
-  last: '마지막',
-  first: '처음',
-  previous: '이전',
-  group: '그룹',
-  columns: '컬럼',
-  value: '값',
-  noFilter: '필터 없음',
-  selectAll: '전체 선택',
-  searchOoo: '검색...',
-  blanks: '빈 값',
-  selectAllFilteredRows: '필터된 행 모두 선택',
-  selectAllRows: '모든 행 선택',
-  addRow: '행 추가',
-  cancel: '취소',
-  save: '저장',
-  edit: '편집',
-  delete: '삭제',
-  copy: '복사',
-  paste: '붙여넣기',
-  cut: '잘라내기',
+  nextPage: '다음 페이지',
+  lastPage: '마지막 페이지',
+  firstPage: '첫 페이지',
+  previousPage: '이전 페이지',
+  // 기타
+  loadingOoo: '로딩 중...',
+  noRowsToShow: '표시할 데이터가 없습니다.',
+  // 컬럼 메뉴
   pinColumn: '컬럼 고정',
-  pinLeft: '왼쪽 고정',
-  pinRight: '오른쪽 고정',
-  noPin: '고정 해제',
   valueAggregation: '값 집계',
   autosizeThiscolumn: '이 컬럼 자동 크기 조정',
   autosizeAllColumns: '모든 컬럼 자동 크기 조정',
-  groupBy: '그룹화',
-  ungroupBy: '그룹화 해제',
   resetColumns: '컬럼 초기화',
-  expandAll: '모두 펼치기',
-  collapseAll: '모두 접기',
-  copyWithHeaders: '헤더와 함께 복사',
-  pasteWithHeaders: '헤더와 함께 붙여넣기',
-  toolPanel: '도구 패널',
-  pageSize: '페이지 크기',
-  sum: '합계',
-  min: '최소값',
-  max: '최대값',
-  none: '없음',
-  count: '개수',
-  avg: '평균',
-  filteredRows: '필터된 행',
-  selectedRows: '선택된 행',
-  totalRows: '전체 행'
+  expandAll: '모두 확장',
+  collapseAll: '모두 축소',
+  copy: '복사',
+  ctrlC: 'Ctrl+C',
+  paste: '붙여넣기',
+  ctrlV: 'Ctrl+V'
 };
-import { Card } from '@/components/ui/card';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -114,18 +78,16 @@ import {
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-interface ScheduleData {
+interface RegionSettingsData {
   id: number;
   qualification: string;
   examSession: string;
   examType: string;
-  registrationPeriod: string;
-  refundPeriod: string;
-  examDate: string;
-  resultDate: string;
+  examCenterCount: number;
 }
 
-const generateScheduleData = (): ScheduleData[] => {
+// 더미 데이터 생성 함수
+const generateRegionSettingsData = (): RegionSettingsData[] => {
   const qualifications = [
     '정보처리기사',
     '정보처리산업기사',
@@ -134,48 +96,7 @@ const generateScheduleData = (): ScheduleData[] => {
     '네트워크관리사',
     '컴퓨터활용능력1급',
     '정보통신기사',
-    '전자계산기조직응용기사'
-  ];
-  const examTypes = ['정기', '수시', '특별'];
-  const years = [2024, 2025];
-
-  const schedules: ScheduleData[] = [];
-  let id = 1;
-  qualifications.forEach((qualification) => {
-    years.forEach((year) => {
-      for (let session = 1; session <= 3; session++) {
-        const examType =
-          examTypes[Math.floor(Math.random() * examTypes.length)];
-        const regStartMonth = session === 1 ? 1 : session === 2 ? 4 : 7;
-        const regStartDay = 10 + Math.floor(Math.random() * 10);
-        const regEndDay = regStartDay + 14;
-        const registrationPeriod = `${year}.${String(regStartMonth).padStart(2, '0')}.${String(regStartDay).padStart(2, '0')} - ${year}.${String(regStartMonth).padStart(2, '0')}.${String(regEndDay).padStart(2, '0')}`;
-        const refundEndDay = regStartDay + 7;
-        const refundPeriod = `${year}.${String(regStartMonth).padStart(2, '0')}.${String(regStartDay).padStart(2, '0')} - ${year}.${String(regStartMonth).padStart(2, '0')}.${String(refundEndDay).padStart(2, '0')}`;
-        const examMonth = regStartMonth + 1;
-        const examStartDay = 15 + Math.floor(Math.random() * 5);
-        const examEndDay = examStartDay + Math.floor(Math.random() * 3) + 1; // 시작일 + 1~3일
-        const examDate = `${year}.${String(examMonth).padStart(2, '0')}.${String(examStartDay).padStart(2, '0')} ~ ${year}.${String(examMonth).padStart(2, '0')}.${String(examEndDay).padStart(2, '0')}`;
-        const resultMonth = examMonth + 1;
-        const resultDay = 10 + Math.floor(Math.random() * 10);
-        const resultDate = `${year}.${String(resultMonth).padStart(2, '0')}.${String(resultDay).padStart(2, '0')}`;
-
-        schedules.push({
-          id: id++,
-          qualification,
-          examSession: `${session}`,
-          examType,
-          registrationPeriod,
-          refundPeriod,
-          examDate,
-          resultDate
-        });
-      }
-    });
-  });
-
-  // 추가 목데이터 10개 (오늘 이후 시험일정 포함)
-  const additionalQualifications = [
+    '전자계산기조직응용기사',
     'SQLD',
     'SQLP',
     'ADsP',
@@ -188,51 +109,27 @@ const generateScheduleData = (): ScheduleData[] => {
     'OA마스터'
   ];
 
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
-  const currentDay = today.getDate();
+  const examTypes = ['필기', '실기'];
 
-  additionalQualifications.forEach((qualification, index) => {
-    // 오늘 이후의 시험일정 생성
-    const examMonthOffset = Math.floor(Math.random() * 6) + 1; // 1~6개월 후
-    const examMonth = currentMonth + examMonthOffset;
-    const examYear = examMonth > 12 ? currentYear + 1 : currentYear;
-    const actualExamMonth = examMonth > 12 ? examMonth - 12 : examMonth;
+  const schedules: RegionSettingsData[] = [];
+  let id = 1;
 
-    const examStartDay = Math.floor(Math.random() * 28) + 1;
-    const examEndDay = examStartDay + Math.floor(Math.random() * 2); // 1~2일간
+  qualifications.forEach((qualification) => {
+    examTypes.forEach((examType) => {
+      // 자격명이 동일하면 시험회차는 다르게 생성
+      const sessions = [1, 2, 3, 4, 5]; // 가능한 회차들
+      const shuffledSessions = sessions.sort(() => Math.random() - 0.5); // 회차 섞기
 
-    // 접수기간은 시험일 1개월 전
-    const regMonth = actualExamMonth - 1;
-    const regYear = regMonth <= 0 ? examYear - 1 : examYear;
-    const actualRegMonth = regMonth <= 0 ? 12 + regMonth : regMonth;
-
-    const regStartDay = Math.floor(Math.random() * 15) + 1;
-    const regEndDay = regStartDay + 14;
-
-    // 환불기간은 접수기간과 겹치도록
-    const refundEndDay = regStartDay + 7;
-
-    // 합격자발표일은 시험일 1개월 후
-    const resultMonth = actualExamMonth + 1;
-    const resultYear = resultMonth > 12 ? examYear + 1 : examYear;
-    const actualResultMonth = resultMonth > 12 ? resultMonth - 12 : resultMonth;
-
-    const resultDay = Math.floor(Math.random() * 20) + 1;
-
-    const examType = examTypes[Math.floor(Math.random() * examTypes.length)];
-    const session = Math.floor(Math.random() * 3) + 1;
-
-    schedules.push({
-      id: id++,
-      qualification,
-      examSession: `${session}`,
-      examType,
-      registrationPeriod: `${regYear}.${String(actualRegMonth).padStart(2, '0')}.${String(regStartDay).padStart(2, '0')} - ${regYear}.${String(actualRegMonth).padStart(2, '0')}.${String(regEndDay).padStart(2, '0')}`,
-      refundPeriod: `${regYear}.${String(actualRegMonth).padStart(2, '0')}.${String(regStartDay).padStart(2, '0')} - ${regYear}.${String(actualRegMonth).padStart(2, '0')}.${String(refundEndDay).padStart(2, '0')}`,
-      examDate: `${examYear}.${String(actualExamMonth).padStart(2, '0')}.${String(examStartDay).padStart(2, '0')} ~ ${examYear}.${String(actualExamMonth).padStart(2, '0')}.${String(examEndDay).padStart(2, '0')}`,
-      resultDate: `${resultYear}.${String(actualResultMonth).padStart(2, '0')}.${String(resultDay).padStart(2, '0')}`
+      // 각 자격명-시험구분 조합마다 3개의 서로 다른 회차 생성
+      for (let i = 0; i < 3; i++) {
+        schedules.push({
+          id: id++,
+          qualification,
+          examSession: `${shuffledSessions[i]}`,
+          examType,
+          examCenterCount: Math.floor(Math.random() * 20) + 5 // 5~24개 고사장
+        });
+      }
     });
   });
 
@@ -240,51 +137,34 @@ const generateScheduleData = (): ScheduleData[] => {
 };
 
 // 전역 데이터 저장소 (실제로는 서버에서 가져올 데이터)
-let globalScheduleData: ScheduleData[] = [];
+let globalRegionSettingsData: RegionSettingsData[] = [];
 
 // 데이터를 가져오는 함수
-export const getScheduleData = (): ScheduleData[] => {
-  if (globalScheduleData.length === 0) {
-    globalScheduleData = generateScheduleData();
+export const getRegionSettingsData = (): RegionSettingsData[] => {
+  if (globalRegionSettingsData.length === 0) {
+    globalRegionSettingsData = generateRegionSettingsData();
   }
-  return globalScheduleData;
+  return globalRegionSettingsData;
 };
 
 // 특정 ID의 데이터를 가져오는 함수
-export const getScheduleById = (id: number): ScheduleData | undefined => {
-  const data = getScheduleData();
+export const getRegionSettingsById = (
+  id: number
+): RegionSettingsData | undefined => {
+  const data = getRegionSettingsData();
   return data.find((item) => item.id === id);
 };
 
-// 오늘 이후 시험일정만 가져오는 함수
-export const getFutureScheduleData = (): ScheduleData[] => {
-  const data = getScheduleData();
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정
-
-  return data.filter((item) => {
-    // 시험일정 종료일 파싱
-    const examDateParts = item.examDate.split(' ~ ');
-    if (examDateParts.length !== 2) return false;
-
-    const examEndDateStr = examDateParts[1].trim();
-    const [year, month, day] = examEndDateStr.split('.').map(Number);
-    const examEndDate = new Date(year, month - 1, day);
-
-    return examEndDate >= today;
-  });
-};
-
-export default function ScheduleManagement() {
+export default function ExamCenterRegionSettings() {
   const router = useRouter();
-  const [rowData, setRowData] = useState<ScheduleData[]>([]);
+  const [rowData, setRowData] = useState<RegionSettingsData[]>([]);
   const [qualification, setQualification] = useState('all');
   const [examSession, setExamSession] = useState('');
-  const gridRef = useRef<AgGridReact<ScheduleData>>(null);
+  const gridRef = useRef<AgGridReact<RegionSettingsData>>(null);
   const [gridApi, setGridApi] = useState<GridApi | null>(null);
 
   useEffect(() => {
-    setRowData(getScheduleData());
+    setRowData(getRegionSettingsData());
   }, []);
 
   const filteredData = useMemo(() => {
@@ -298,11 +178,15 @@ export default function ScheduleManagement() {
     });
   }, [rowData, qualification, examSession]);
 
-  const columnDefs = useMemo<ColDef<ScheduleData>[]>(
+  const columnDefs = useMemo<ColDef<RegionSettingsData>[]>(
     () => [
       {
         headerName: 'No',
-        valueGetter: 'node.rowIndex + 1',
+        valueGetter: (params) => {
+          // 전체 데이터 길이에서 현재 행 인덱스를 빼서 내림차순 번호 생성
+          const totalRows = params.api.getDisplayedRowCount();
+          return totalRows - params.node.rowIndex;
+        },
         filter: false,
         sortable: false,
         width: 70,
@@ -365,62 +249,22 @@ export default function ScheduleManagement() {
         }
       },
       {
-        headerName: '접수기간',
-        field: 'registrationPeriod',
+        headerName: '고사장수',
+        field: 'examCenterCount',
         filter: true, // 기본 필터
         sortable: true,
-        flex: 1.5,
-        minWidth: 200,
+        flex: 1,
+        minWidth: 120,
         cellStyle: (params: any) => {
-          const today = new Date();
-          const period = params.value;
-          const isActive = period.includes(
-            today.getFullYear() +
-              '.' +
-              String(today.getMonth() + 1).padStart(2, '0')
-          );
+          const count = params.value;
+          const color =
+            count >= 15 ? '#10b981' : count >= 10 ? '#f59e0b' : '#ef4444';
           return {
-            color: isActive ? '#10b981' : '#6b7280',
-            fontWeight: isActive ? '600' : '400'
+            fontWeight: '600',
+            color: color,
+            textAlign: 'center'
           };
         }
-      },
-      {
-        headerName: '50%환불기간',
-        field: 'refundPeriod',
-        filter: true, // 기본 필터
-        sortable: true,
-        flex: 1.5,
-        minWidth: 200
-      },
-      {
-        headerName: '시험일정',
-        field: 'examDate',
-        filter: true, // 기본 필터
-        sortable: true,
-        flex: 1.5,
-        minWidth: 200,
-        cellStyle: (params: any) => {
-          const today = new Date();
-          const examDate = params.value;
-          const isUpcoming = examDate.includes(
-            today.getFullYear() +
-              '.' +
-              String(today.getMonth() + 1).padStart(2, '0')
-          );
-          return {
-            color: isUpcoming ? '#ef4444' : '#6b7280',
-            fontWeight: isUpcoming ? '600' : '400'
-          };
-        }
-      },
-      {
-        headerName: '합격자발표일',
-        field: 'resultDate',
-        filter: true, // 기본 필터
-        sortable: true,
-        flex: 1.2,
-        minWidth: 140
       }
     ],
     []
@@ -450,35 +294,40 @@ export default function ScheduleManagement() {
   }, [gridApi]);
 
   const handleRefresh = useCallback(() => {
-    globalScheduleData = generateScheduleData();
-    setRowData(getScheduleData());
+    globalRegionSettingsData = generateRegionSettingsData();
+    setRowData(getRegionSettingsData());
   }, []);
 
   const handleRowClick = useCallback(
     (event: any) => {
-      const scheduleId = event.data.id;
+      const regionSettingsId = event.data.id;
       router.push(
-        `/dashboard/registration/schedule-management/form?id=${scheduleId}`
+        `/dashboard/exam-center/region-settings/form?id=${regionSettingsId}`
       );
     },
     [router]
   );
 
   const handleAdd = useCallback(() => {
-    router.push('/dashboard/registration/schedule-management/form');
+    router.push('/dashboard/exam-center/region-settings/form');
   }, [router]);
 
   // 컬럼 상태 저장/복원
   const handleSaveColumnState = useCallback(() => {
     if (!gridApi) return;
     const columnState = gridApi.getColumnState();
-    localStorage.setItem('ag-grid-column-state', JSON.stringify(columnState));
+    localStorage.setItem(
+      'ag-grid-region-settings-column-state',
+      JSON.stringify(columnState)
+    );
     alert('컬럼 상태가 저장되었습니다.');
   }, [gridApi]);
 
   const handleRestoreColumnState = useCallback(() => {
     if (!gridApi) return;
-    const savedState = localStorage.getItem('ag-grid-column-state');
+    const savedState = localStorage.getItem(
+      'ag-grid-region-settings-column-state'
+    );
     if (savedState) {
       try {
         const columnState = JSON.parse(savedState);
@@ -526,7 +375,7 @@ export default function ScheduleManagement() {
         popoverForeground: getComputedColor('--popover-foreground')
       };
 
-      console.log('AG Grid 동적 테마 색상:', colors); // 디버깅용
+      console.log('AG Grid 동적 테마 색상:', colors);
 
       const style = document.createElement('style');
       style.textContent = `
@@ -628,26 +477,6 @@ export default function ScheduleManagement() {
           font-size: 12px !important;
         }
         
-        /* No 컬럼 floating filter에 돋보기 아이콘 추가 - 동적 색상 적용 */
-        .ag-theme-quartz .ag-header-cell[col-id="0"] .ag-floating-filter-body {
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          height: 100% !important;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.3-4.3'%3E%3C/path%3E%3C/svg%3E");
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: 16px 16px;
-          cursor: pointer;
-          opacity: 0.8;
-          transition: opacity 0.2s ease;
-        }
-        
-        .ag-theme-quartz .ag-header-cell[col-id="0"] .ag-floating-filter-body:hover {
-          opacity: 1;
-          transform: scale(1.1);
-        }
-        
         /* AG Grid 페이지네이션 스타일 - 동적 색상 적용 */
         .ag-theme-quartz .ag-paging-panel {
           background: ${colors.muted || 'hsl(var(--muted))'} !important;
@@ -688,107 +517,6 @@ export default function ScheduleManagement() {
           font-weight: 500 !important;
         }
         
-        /* AG Grid 필터 팝업 스타일 - 동적 색상 적용 */
-        .ag-filter-popup {
-          border: 1px solid ${colors.border || 'hsl(var(--border))'} !important;
-          border-radius: 12px !important;
-          box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
-          background: ${colors.popover || colors.background || 'hsl(var(--popover))'} !important;
-          overflow: hidden !important;
-        }
-        
-        .ag-filter-popup .ag-filter-body-wrapper {
-          padding: 20px !important;
-          background: ${colors.muted || 'hsl(var(--muted))'} !important;
-        }
-        
-        .ag-filter-popup .ag-filter-condition {
-          margin-bottom: 16px !important;
-        }
-        
-        .ag-filter-popup .ag-filter-condition select {
-          border: 1px solid ${colors.border || 'hsl(var(--border))'} !important;
-          border-radius: 8px !important;
-          padding: 10px 14px !important;
-          font-size: 14px !important;
-          background: ${colors.background || 'hsl(var(--background))'} !important;
-          color: ${colors.foreground || 'hsl(var(--foreground))'} !important;
-          transition: all 0.2s ease !important;
-        }
-        
-        .ag-filter-popup .ag-filter-condition select:focus {
-          border-color: ${colors.primary || 'hsl(var(--primary))'} !important;
-          outline: none !important;
-          box-shadow: 0 0 0 3px ${colors.primary || 'hsl(var(--primary))'}1A !important;
-        }
-        
-        .ag-filter-popup .ag-filter-condition input {
-          border: 1px solid ${colors.border || 'hsl(var(--border))'} !important;
-          border-radius: 8px !important;
-          padding: 10px 14px !important;
-          font-size: 14px !important;
-          background: ${colors.background || 'hsl(var(--background))'} !important;
-          color: ${colors.foreground || 'hsl(var(--foreground))'} !important;
-          transition: all 0.2s ease !important;
-        }
-        
-        .ag-filter-popup .ag-filter-condition input:focus {
-          border-color: ${colors.primary || 'hsl(var(--primary))'} !important;
-          outline: none !important;
-          box-shadow: 0 0 0 3px ${colors.primary || 'hsl(var(--primary))'}1A !important;
-        }
-        
-        .ag-filter-popup .ag-filter-apply-panel {
-          border-top: 1px solid ${colors.border || 'hsl(var(--border))'} !important;
-          padding: 16px 20px !important;
-          margin-top: 20px !important;
-          background: ${colors.background || 'hsl(var(--background))'} !important;
-          display: flex !important;
-          gap: 12px !important;
-          justify-content: flex-end !important;
-        }
-        
-        .ag-filter-popup .ag-filter-apply-panel button {
-          border: 1px solid ${colors.border || 'hsl(var(--border))'} !important;
-          border-radius: 8px !important;
-          padding: 10px 20px !important;
-          font-size: 14px !important;
-          font-weight: 500 !important;
-          background: ${colors.background || 'hsl(var(--background))'} !important;
-          color: ${colors.foreground || 'hsl(var(--foreground))'} !important;
-          transition: all 0.2s ease !important;
-          cursor: pointer !important;
-        }
-        
-        .ag-filter-popup .ag-filter-apply-panel button:hover {
-          background: ${colors.muted || 'hsl(var(--muted))'} !important;
-          border-color: ${colors.border || 'hsl(var(--border))'} !important;
-        }
-        
-        .ag-filter-popup .ag-filter-apply-panel button.ag-filter-apply-button {
-          background: ${colors.primary || 'hsl(var(--primary))'} !important;
-          color: ${colors.primaryForeground || 'hsl(var(--primary-foreground))'} !important;
-          border-color: ${colors.primary || 'hsl(var(--primary))'} !important;
-        }
-        
-        .ag-filter-popup .ag-filter-apply-panel button.ag-filter-apply-button:hover {
-          background: ${colors.primary || 'hsl(var(--primary))'}E6 !important;
-          border-color: ${colors.primary || 'hsl(var(--primary))'}E6 !important;
-        }
-        
-        /* AG Grid 로딩 및 빈 상태 스타일 - 동적 색상 적용 */
-        .ag-theme-quartz .ag-overlay-loading-wrapper {
-          background: ${colors.background || 'hsl(var(--background))'}E6 !important;
-          backdrop-filter: blur(4px) !important;
-        }
-        
-        .ag-theme-quartz .ag-overlay-no-rows-wrapper {
-          background: ${colors.muted || 'hsl(var(--muted))'} !important;
-          color: ${colors.mutedForeground || 'hsl(var(--muted-foreground))'} !important;
-          font-size: 16px !important;
-          font-weight: 500 !important;
-        }
-        
         /* 스크롤바 스타일 - 동적 색상 적용 */
         .ag-theme-quartz ::-webkit-scrollbar {
           width: 8px !important;
@@ -811,12 +539,14 @@ export default function ScheduleManagement() {
       `;
 
       // 기존 스타일 제거
-      const existingStyle = document.getElementById('ag-grid-theme-style');
+      const existingStyle = document.getElementById(
+        'ag-grid-region-settings-theme-style'
+      );
       if (existingStyle) {
         existingStyle.remove();
       }
 
-      style.id = 'ag-grid-theme-style';
+      style.id = 'ag-grid-region-settings-theme-style';
       document.head.appendChild(style);
     };
 
@@ -825,7 +555,7 @@ export default function ScheduleManagement() {
 
     // 테마 변경 감지
     const observer = new MutationObserver(() => {
-      setTimeout(updateTheme, 100); // 더 긴 지연으로 CSS 변수가 완전히 업데이트된 후 실행
+      setTimeout(updateTheme, 100);
     });
 
     // document.documentElement와 body 모두 관찰
@@ -859,7 +589,9 @@ export default function ScheduleManagement() {
     return () => {
       observer.disconnect();
       styleObserver.disconnect();
-      const existingStyle = document.getElementById('ag-grid-theme-style');
+      const existingStyle = document.getElementById(
+        'ag-grid-region-settings-theme-style'
+      );
       if (existingStyle) {
         existingStyle.remove();
       }
@@ -870,20 +602,11 @@ export default function ScheduleManagement() {
   const handleCsvDownload = useCallback(() => {
     if (!gridApi) return;
     gridApi.exportDataAsCsv({
-      fileName: '시험일정.csv',
+      fileName: '고사장지역설정.csv',
       columnSeparator: ',',
-      suppressQuotes: false // 한국어/공백 포함 셀 안전하게 내보내려면 true 권장
-      // onlySelected: true,               // 선택된 행만 내보내기 옵션
-      // processCellCallback: p => p.value // 필요 시 포맷 조정
+      suppressQuotes: false
     });
   }, [gridApi]);
-
-  // Excel 다운로드 (Enterprise만 가능) - 필요 시 주석 해제
-  // const handleExcelDownload = useCallback(() => {
-  //   if (!gridApi) return;
-  //   // @ts-ignore - Enterprise API
-  //   gridApi.exportDataAsExcel({ fileName: '시험일정.xlsx' });
-  // }, [gridApi]);
 
   return (
     <div className='w-full space-y-6'>
@@ -956,7 +679,7 @@ export default function ScheduleManagement() {
             {filteredData.length}개
           </span>
           <span className='text-muted-foreground'>
-            의 일정이 검색되었습니다.
+            의 지역설정이 검색되었습니다.
           </span>
         </div>
         <div className='flex flex-wrap items-center gap-2'>
@@ -1003,14 +726,14 @@ export default function ScheduleManagement() {
 
           <Button onClick={handleAdd} className='gap-2'>
             <Plus className='h-4 w-4' />
-            일정 추가
+            지역설정 추가
           </Button>
         </div>
       </div>
 
       {/* AG Grid */}
       <div className='ag-theme-quartz' style={{ height: 600, width: '100%' }}>
-        <AgGridReact<ScheduleData>
+        <AgGridReact<RegionSettingsData>
           ref={gridRef}
           onGridReady={onGridReady}
           rowData={filteredData}
